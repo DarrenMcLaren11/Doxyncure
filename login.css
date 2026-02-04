@@ -1,0 +1,65 @@
+body { 
+    margin: 0; 
+    background: #0f172a; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    font-family: 'Inter', sans-serif; 
+}
+
+.top-header { position: fixed; top: 0; left: 0; padding: 25px 5%; width: 100%; }
+
+/* MATCHING LOGO IMAGE */
+.brand-logo {
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 2rem;
+    letter-spacing: -1px;
+    background: linear-gradient(to right, #3b82f6, #06b6d4, #10b981);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.login-card { 
+    background: white; 
+    padding: 40px; 
+    border-radius: 20px; 
+    width: 360px; 
+    text-align: center; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+}
+
+h2 { color: #1e293b; margin-bottom: 25px; font-weight: 700; }
+
+input { 
+    width: 100%; 
+    padding: 14px; 
+    margin: 10px 0; 
+    border: 1px solid #cbd5e1; 
+    border-radius: 10px; 
+    box-sizing: border-box; 
+    font-size: 16px;
+    outline: none;
+}
+
+/* THE LIGHT BLUE BUTTON */
+.btn-authorize { 
+    width: 100%; 
+    padding: 14px; 
+    background: #60a5fa; /* Light Blue (Tailwind Blue-400) */
+    color: white; 
+    border: none; 
+    border-radius: 10px; 
+    font-weight: 800; 
+    cursor: pointer; 
+    font-size: 16px;
+    margin-top: 15px;
+    transition: background 0.2s;
+}
+
+.btn-authorize:hover { background: #3b82f6; }
+
+.error { color: #ef4444; display: none; margin-top: 15px; font-weight: 600; }

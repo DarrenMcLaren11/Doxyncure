@@ -1,0 +1,149 @@
+body { 
+    margin: 0; 
+    font-family: 'Inter', sans-serif; 
+    background: #0f172a; 
+    color: white; 
+}
+
+/* Header & Logo */
+.header { 
+    display: flex; 
+    justify-content: space-between; 
+    padding: 20px 5%; 
+    align-items: center; 
+    background: rgba(15, 23, 42, 0.9);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.brand-logo {
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: -1px;
+    background: linear-gradient(to right, #3b82f6, #06b6d4, #10b981);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: default; /* Not clickable */
+}
+
+.power-btn { 
+    color: #ef4444; 
+    transition: transform 0.2s; 
+}
+.power-btn:hover { transform: scale(1.1); }
+
+/* Workspace */
+.workspace-container { 
+    max-width: 900px; 
+    margin: 40px auto; 
+    padding: 0 20px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+}
+
+textarea { 
+    height: 60vh; 
+    padding: 25px; 
+    border-radius: 15px; 
+    font-size: 16px; 
+    border: none; 
+    background: #f8fafc; 
+    color: #1e293b;
+    line-height: 1.6;
+    outline: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.btn-preview { 
+    background: #60a5fa; 
+    color: white; 
+    padding: 15px; 
+    border: none; 
+    border-radius: 12px; 
+    font-weight: 800; 
+    cursor: pointer; 
+    font-size: 16px;
+}
+
+/* Modal and PDF Styling */
+.modal { 
+    display: none; 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(0,0,0,0.85); 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 1000;
+}
+
+.modal-content { 
+    background: white; 
+    padding: 30px; 
+    border-radius: 15px; 
+    width: 95%; 
+    max-width: 700px; 
+    max-height: 90vh; 
+    overflow-y: auto;
+}
+
+.pdf-page { 
+    padding: 40px; 
+    color: #1a1a1a; 
+    border: 1px solid #e2e8f0;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pdf-header h1 { 
+    margin: 0; 
+    font-size: 28px; 
+    letter-spacing: 1px;
+}
+.doc-type { font-size: 12px; color: #64748b; font-weight: bold; margin-bottom: 30px; }
+
+.pdf-body { 
+    flex-grow: 1; 
+    white-space: pre-wrap; 
+    font-family: 'Georgia', serif; 
+    line-height: 1.8; 
+    font-size: 14px;
+}
+
+.pdf-footer { 
+    margin-top: 40px; 
+    text-align: center; 
+    font-size: 10px; 
+    color: #94a3b8; 
+    border-top: 1px solid #f1f5f9; 
+    padding-top: 10px; 
+}
+
+/* Action Buttons */
+.modal-actions { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px; 
+    margin-top: 25px; 
+}
+
+.btn-edit { 
+    background: #f1f5f9; 
+    color: #475569; 
+    border: 1px solid #cbd5e1; 
+    padding: 14px; 
+    border-radius: 10px; 
+    font-weight: 700; 
+    cursor: pointer;
+}
+
+.btn-download { 
+    background: #10b981; 
+    color: white; 
+    border: none; 
+    padding: 14px; 
+    border-radius: 10px; 
+    font-weight: 800; 
+    cursor: pointer;
+}
