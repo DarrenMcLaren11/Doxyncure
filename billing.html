@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOXYNCURE - Smart Billing</title>
+    <link rel="stylesheet" href="billing.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-wrapper">
+                <span class="brand-main">DOXYNCURE</span>
+                <span class="brand-tagline">Secure Medical Invoicing</span>
+            </a>
+        </div>
+    </nav>
+
+    <section class="billing-section">
+        <div class="hero-background">
+            <div class="gradient-blob blob-1"></div>
+            <div class="gradient-blob blob-2"></div>
+        </div>
+
+        <div class="container billing-grid">
+            <div class="billing-card form-section">
+                <h2 class="card-title">Create Bill</h2>
+                
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label>Invoice #</label>
+                        <input type="text" id="invoiceNo" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="invoiceDate" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Patient Name</label>
+                    <input type="text" id="patientName" class="form-control" placeholder="Enter patient name">
+                </div>
+
+                <div class="form-divider"></div>
+                <h3 class="card-subtitle">Add Items (Max 10)</h3>
+
+                <div class="add-item-grid">
+                    <div class="form-group">
+                        <label>Service/Product</label>
+                        <select id="itemName" class="form-control">
+                            <option value="">Loading inventory...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Qty <span id="stockLabel" style="font-size: 0.7rem; color: #06b6d4;"></span></label>
+                        <input type="number" id="itemQty" class="form-control" value="1" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Rate (₹)</label>
+                        <input type="number" id="itemRate" class="form-control" readonly>
+                    </div>
+                </div>
+                <button class="btn btn-primary w-100" id="addItemBtn">Add Item to Bill</button>
+            </div>
+
+            <div class="billing-card preview-section" id="printArea">
+                <div class="invoice-header">
+                    <div>
+                        <h2 class="brand-main">DOXYNCURE</h2>
+                        <p style="font-size: 0.8rem; color: #94a3b8;">Synced & Secure</p>
+                    </div>
+                    <div class="text-right">
+                        <h3 style="color: white; margin-bottom: 5px;">INVOICE</h3>
+                        <p id="displayInvoiceNo">#INV-000000</p>
+                        <p id="displayDate">Date: --/--/----</p>
+                    </div>
+                </div>
+
+                <div class="billed-to">
+                    <p style="color: #94a3b8; font-size: 0.8rem;">Billed To:</p>
+                    <h3 id="displayPatientName" style="color: white; margin-top: 5px;">[Patient Name]</h3>
+                </div>
+
+                <div class="table-container">
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th class="text-center">Qty</th>
+                                <th class="text-right">Rate</th>
+                                <th class="text-right">Amount</th>
+                                <th class="hide-on-print"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoiceItems">
+                            </tbody>
+                    </table>
+                </div>
+
+                <div class="invoice-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotalAmount">₹0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>GST (5%):</span>
+                        <span id="taxAmount">₹0.00</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Total Due:</span>
+                        <span id="totalAmount">₹0.00</span>
+                    </div>
+                </div>
+
+                <div class="billing-actions hide-on-print">
+                    <button class="btn btn-primary" id="printBtn">Print Bill</button>
+                    <button class="btn btn-secondary" id="newBillBtn">New Bill</button>
+                    <button class="btn btn-secondary" id="resetBtn">Reset</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="billing.js"></script>
+</body>
+</html>

@@ -11,7 +11,6 @@ let documentId = null;
 
 function openPreview() {
     const editorContent = document.getElementById('clinical-editor').value;
-
     if (!editorContent.trim()) {
         alert("The workspace is empty.");
         return;
@@ -21,7 +20,6 @@ function openPreview() {
         hospital + " HOSPITAL";
 
     document.getElementById('pdf-text-content').innerText = editorContent;
-
     document.getElementById('preview-modal').style.display = 'flex';
 }
 
@@ -40,13 +38,24 @@ async function startApproval() {
     document.getElementById('approval-modal').style.display = 'flex';
 
     try {
-        // Generate PDF as Blob (do NOT download here)
+        // Generate PDF as blob (do NOT download here)
         const pdfBlob = await html2pdf()
             .from(element)
             .outputPdf("blob");
 
+        // Build a unique filename: HOSPITAL_YYYYMMDD_HHMMSS_<random4>.pdf
+        const now = new Date();
+        const datePart = now.getFullYear().toString()
+            + String(now.getMonth() + 1).padStart(2, '0')
+            + String(now.getDate()).padStart(2, '0');
+        const timePart = String(now.getHours()).padStart(2, '0')
+            + String(now.getMinutes()).padStart(2, '0')
+            + String(now.getSeconds()).padStart(2, '0');
+        const randPart = Math.random().toString(36).substring(2, 6).toUpperCase();
+        const uniqueFileName = `${hospital}_${datePart}_${timePart}_${randPart}.pdf`;
+
         const formData = new FormData();
-        formData.append("pdf", pdfBlob, "medical_record.pdf");
+        formData.append("pdf", pdfBlob, uniqueFileName);
         formData.append("userId", hospital);
 
         const response = await fetch("https://api.doxyncure.com/upload", {
@@ -54,20 +63,10 @@ async function startApproval() {
             body: formData
         });
 
-        if (!response.ok) {
-            throw new Error("Upload failed with status " + response.status);
-        }
-
-        const text = await response.text();
-        const data = text ? JSON.parse(text) : {};
-
-        if (!data.id) {
-            throw new Error("No document ID returned from server");
-        }
-
+        const data = await response.json();
         documentId = data.id;
 
-        // Start countdown timer
+        // Start timer
         timeLeft = 300;
         approvalTimer = setInterval(updateTimer, 1000);
 
@@ -75,43 +74,36 @@ async function startApproval() {
         pollingInterval = setInterval(checkStatus, 5000);
 
     } catch (err) {
-        alert("Failed to send document.");
-        console.error("Upload Error:", err);
-        clearAll();
+        alert("Failed to upload PDF.");
+        console.error(err);
     }
 }
 
 // ========================
-// Poll Approval Status
+// Poll Status
 // ========================
 
 async function checkStatus() {
     if (!documentId) return;
 
     try {
-        const response = await fetch(
-            `https://api.doxyncure.com/pending/${hospital}`
-        );
-
+        const response = await fetch(`https://api.doxyncure.com/pending/${hospital}`);
         const data = await response.json();
 
-        // If document no longer pending → check if approved
-        if (!data || data.id !== documentId) {
+        // If no longer pending, check if approved
+        if (data && data.id === documentId) {
+            return; // still pending
+        }
 
-            // Try to access file (if approved, it will exist)
-            const fileCheck = await fetch(
-                `https://api.doxyncure.com/file/${documentId}`,
-                { method: "HEAD" }
-            );
+        const statusResponse = await fetch(`https://api.doxyncure.com/file/${documentId}`);
 
-            if (fileCheck.status === 200) {
-                clearAll();
-                alert("Document Approved ✅");
-            }
+        if (statusResponse.status === 200) {
+            clearAll();
+            alert("Document Approved ✅");
         }
 
     } catch (err) {
-        console.error("Polling error:", err);
+        console.error(err);
     }
 }
 
@@ -124,7 +116,7 @@ function updateTimer() {
     const seconds = timeLeft % 60;
 
     document.getElementById('timer').innerText =
-        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
 
     if (timeLeft <= 0) {
         clearAll();
@@ -148,12 +140,7 @@ function clearAll() {
 async function deleteFromServer() {
     if (!documentId) return;
 
-    try {
-        await fetch(
-            `https://api.doxyncure.com/deny/${documentId}`,
-            { method: "POST" }
-        );
-    } catch (err) {
-        console.error("Delete failed:", err);
-    }
+    await fetch(`https://api.doxyncure.com/deny/${documentId}`, {
+        method: "POST"
+    });
 }
